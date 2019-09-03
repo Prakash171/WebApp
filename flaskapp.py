@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 ###############  DB   ################
 
-conn = pymysql.connect(host='172.31.31.129', port=3306, user='root', passwd='Test_123', db='mydb')
+conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='Test_123', db='mydb')
 cur = conn.cursor()
 
 ###############################
