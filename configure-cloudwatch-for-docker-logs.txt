@@ -1,0 +1,22 @@
+Install Cloudwatch unified agent on EC2 instance for collecting docker container logs: 
+
+
+1. First of all create required IAM roles for the EC2 instances to be able to send metrics to cloudwatch
+
+2. In the list of policies while creating IAM Role for EC2 Instance, select the check box next to CloudWatchAgentServerPolicy. Use the search box to find the policy, if necessary.
+
+3. Download the Cloudwatch Unified Agent. Below is agent for Amazon linux
+   wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+
+4. Install the Cloudwatch Agent
+   sudo rpm -U ./amazon-cloudwatch-agent.rpm
+
+5. Configure the Cloudwatch agent with the help of a setup wizard:
+   sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+   in the wizard select "Do you want to monitor any log files?" select yes and provide the "log file path" to docker custom created log file log.txt 
+
+6. Start the agent
+   sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+
+7. Now we are all set in few minutes we should be able to monitor logs by Navigating to Cloudwatch Management Console 
+   On the left navigation pane select logs and you should see log.txt select it - you should able see the live logs of WebApp running on docker container !
