@@ -18,7 +18,8 @@ resource "aws_instance" "PublicEC2" {
                   ifconfig | grep "eth[0-9]" -A 1 | awk 'FNR == 2{print $2}' > ip.txt
                   sed -i "s/localhost/$(cat ip.txt)/g" flaskapp.py
                   sed -i "s/localhost/$(cat ip.txt)/g" docker-compose.yml
-                  docker-compose up
+                  touch log.txt
+                  docker-compose up > log.txt
                   EOF
 
   depends_on = ["aws_vpc.mainvpc","aws_subnet.PublicSubnet","aws_security_group.allow_ssh_http"]
